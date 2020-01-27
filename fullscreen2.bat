@@ -1,0 +1,1 @@
+RotateGear.exe -f -r

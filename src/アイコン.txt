@@ -1,0 +1,4 @@
+Windows版のアイコンについて
+windres -i bash.rc -o bush.o
+を実行してリソースオブジェクトbush.oを作成してください。
+bush.oがないとコンパイルエラーとなります。

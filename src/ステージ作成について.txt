@@ -1,0 +1,3 @@
+MapEditer for ygs2kのmapediter.exeがエディターとなっています。
+
+使い方についてはエディター.txtを参照してください。
