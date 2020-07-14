@@ -65,7 +65,11 @@ int main(int argc, char *argv[])
 	gameflag[61] = 1;	//画面倍率
 	flags = SDL_HWSURFACE | SDL_FULLSCREEN | SDL_DOUBLEBUF | SDL_HWPALETTE;
 #else
+#ifdef __HAIKU__
+	gameflag[61] = 2;	//画面倍率
+#else
 	gameflag[61] = 1;	//画面倍率
+#endif
 	flags = SDL_SWSURFACE;
 	if ( argc > 1 )	// 起動に引数がある場合
 	{
@@ -78,7 +82,11 @@ int main(int argc, char *argv[])
 				case 'f':  /* -l オプション処理 */
 					flags = SDL_FULLSCREEN  | SDL_SWSURFACE;
 				case 'r':  /* -r オプション処理 */
+#ifdef __HAIKU__
+					gameflag[61] = 1;	//画面倍率
+#else
 					gameflag[61] = 2;	//画面倍率
+#endif
 				}
 			}
 			else
