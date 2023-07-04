@@ -41,7 +41,7 @@ int main(int argc, char *argv[])
 		
 #ifdef GP2X
 #else
-	#ifdef MacOS
+	#if defined(MacOS) || defined(__HAIKU__)
 		if ( argc > 0 )	// ‹N“®‚Éˆø”‚ª‚ ‚éê‡
 		{
 			strcpy( &AppPath[0], argv[0] );
