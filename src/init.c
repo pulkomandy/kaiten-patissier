@@ -44,7 +44,11 @@ int main(int argc, char *argv[])
 	#if defined(MacOS) || defined(__HAIKU__)
 		if ( argc > 0 )	// ‹N“®‚Éˆø”‚ª‚ ‚éê‡
 		{
+#if defined __HAIKU__
+			realpath(argv[0], AppPath);
+#else
 			strcpy( &AppPath[0], argv[0] );
+#endif
 	//		strcat( &AppPath[0], "/Contents/Recources/" );
 			char_work = strrchr( &AppPath[0], '/' );
 //			char_work = strrchr( &AppPath[0], '\\' );
