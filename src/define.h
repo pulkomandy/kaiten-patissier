@@ -54,7 +54,7 @@ enum
 	EN_SN_LOGO,
 	EN_SN_STAGESELECT,
 	EN_SN_DEMO,
-} DISP_SCENE;
+};
 
 enum {
 	EN_BGM_GAME01 = 0,
