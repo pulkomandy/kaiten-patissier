@@ -243,9 +243,9 @@ static long dp_x;									/* プレイヤーの表示位置（画面内の相対座標） */
 static long dp_y;									/* プレイヤーの表示位置（画面内の相対座標） */
 static long dp_x2 = 80;								/* プレイヤーの表示位置（画面内の相対座標） */
 static long demo[10];
-static long map1[10200];								/* ( MapInfo[0] * MapInfo[1] ) + MapInfo[4] 背景用バッファ レイヤー1 */
-static long map2[10200];							 	/* MapInfo[0] * MapInfo[1] 背景用バッファ レイヤー2 */
-static long mapfile[10200];							/* MapInfo[0] * MapInfo[1] 背景用バッファ レイヤー2 */
+static uint32_t map1[10200];								/* ( MapInfo[0] * MapInfo[1] ) + MapInfo[4] 背景用バッファ レイヤー1 */
+static uint32_t map2[10200];							 	/* MapInfo[0] * MapInfo[1] 背景用バッファ レイヤー2 */
+static uint32_t mapfile[10200];							/* MapInfo[0] * MapInfo[1] 背景用バッファ レイヤー2 */
 static long map_data[20];							/* ヘッダ情報 */
 static long bak_cnt = 0;							/* 背景アニメーション用カウンタ */
 static long bak_alldrow = 0;						/* 背景の描画をクリップするか */
@@ -266,7 +266,7 @@ static const long atk_rr1 =5;						/* 腕の回転速度 */
 
 static long stage = 0;								/* ステージ番号 */
 static long secretitemget = 0;						/* 隠しアイテムの取得 */
-static long target_save[1024];
+static uint32_t target_save[1024];
 
 static long pshot[10 * 10];							/* プレイヤー攻撃用情報 */
 static long pshotf[10 * 40];						/* プレイヤー攻撃用情報 */
@@ -291,7 +291,7 @@ static long test[5];
 static long rayer[5];								/* 背景スクロール量 */
 static long play_time[5];
 /* リプレイ２０分 */
-static long replay[60 * 60 * 10];	/* フレーム＊秒＊分 */
+static uint32_t replay[60 * 60 * 10];	/* フレーム＊秒＊分 */
 static long replay_time = 1;
 static long replay_time_MAX = 60 * 60 * 10;	/* 最大時間 */
 static long replay_load_key[10];
@@ -441,6 +441,7 @@ void act_init( void )
 	sprintf(string,"data/%d/%d_%d.map", ( int )stage , ( int )1, ( int )d_num );
 	if ( 0 == LoadFile( string, map1, sizeof( map1 ) ) )
 	{
+		// File loaded OK
 	}
 	else 
 	{

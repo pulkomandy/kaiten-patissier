@@ -29,13 +29,11 @@ int main(int argc, char *argv[])
 	Uint32 flags;
 	SDL_Surface* tmp;
 	char AppPath[1024];
-	char AppPathw[1024];
 	char *char_work;
 	int strlen;
 
 	/* èâä˙âª */
-	memset( &AppPath[0], '\0', sizeof( AppPath ) );
-	memset( &AppPathw[0], '\0', sizeof( AppPath ) );
+	memset(AppPath, '\0', sizeof(AppPath));
 	if (SDL_Init(SDL_INIT_VIDEO) < 0)
 		return 1;
 		
@@ -47,16 +45,14 @@ int main(int argc, char *argv[])
 #if defined __HAIKU__
 			realpath(argv[0], AppPath);
 #else
-			strcpy( &AppPath[0], argv[0] );
+			strcpy(AppPath, argv[0] );
 #endif
-	//		strcat( &AppPath[0], "/Contents/Recources/" );
-			char_work = strrchr( &AppPath[0], '/' );
-//			char_work = strrchr( &AppPath[0], '\\' );
-			strlen = char_work - &AppPath[0];
-			
-			strncpy( &AppPathw[0], &AppPath[0], strlen );
-			chdir( &AppPathw[0] );
-//			LogFileWrite( "testlog.txt", &AppPathw[0] );
+			printf("AppPath before: %s\n", AppPath);
+			char_work = strrchr(AppPath, '/' );
+			*char_work = '\0';
+			printf("AppPath after: %s\n", AppPath);
+
+			chdir(AppPath);
 		}
 	#else
 	#endif

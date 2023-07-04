@@ -29,7 +29,7 @@ static int csl[2] = {0,0};
 
 //static char string[1024];
 
-static long target_save[1024];
+static uint32_t target_save[1024];
 
 //----------------------------------------------------------------------
 // ƒƒCƒ“ŠÖ”
