@@ -37,7 +37,7 @@ void logo_main( void )
 	while( scene_exit )
 	{
 //		KeyInput( );	// キー入力
-		
+
 		logo_keys( );		// キー処理
 		logo_drow( );		// 描画
 		
@@ -62,7 +62,7 @@ void logo_init( void )
 	demo2 = 0;
 	
 	LoadBitmap("image/a_logo.bmp",2,true);		//プレーンナンバー１にタイトル画面背景を読み込む
-	LoadBitmap("image/al_256.bmp",3,false);		//プレーンナンバー１にタイトル画面背景を読み込む
+	LoadBitmap("image/AL_256.bmp",3,false);		//プレーンナンバー１にタイトル画面背景を読み込む
 
 	soundStopBgm(EN_BGM_GAME01);
 }
