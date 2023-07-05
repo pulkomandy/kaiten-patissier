@@ -102,7 +102,7 @@ void stageselect_init( void )
 	LoadBitmap("image/sys/waku.bmp",109,true);					//プレーンナンバー２にシステム用ＢＭＰを読み込む
 
 
-	LoadFile( "save/target", &target_save[0], sizeof( target_save ) );
+	LoadFile( "data/target", &target_save[0], sizeof( target_save ) );
 	
 	if ( gameflag[70] == 0 )
 	{

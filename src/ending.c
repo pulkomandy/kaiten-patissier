@@ -96,7 +96,7 @@ void ending_init( void )
 	LoadBitmap("image/sys/waku.bmp",109,true);					//プレーンナンバー２にシステム用ＢＭＰを読み込む
 	soundPlayBgm( EN_BGM_GAME07 );
 
-	LoadFile( "save/target", &target_save[0], sizeof( target_save ) );
+	LoadFile( "data/target", &target_save[0], sizeof( target_save ) );
 	tergetnam = 0;
 	for ( x = 0; x < 5; x++ )
 	{

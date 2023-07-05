@@ -47,10 +47,8 @@ int main(int argc, char *argv[])
 #else
 			strcpy(AppPath, argv[0] );
 #endif
-			printf("AppPath before: %s\n", AppPath);
 			char_work = strrchr(AppPath, '/' );
 			*char_work = '\0';
-			printf("AppPath after: %s\n", AppPath);
 
 			chdir(AppPath);
 		}

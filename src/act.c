@@ -420,7 +420,7 @@ void act_init( void )
 		save_data[i] = gameflag2[i];
 	}
 	
-	LoadFile( "save/target", &target_save[0], sizeof( target_save ) );
+	LoadFile( "data/target", &target_save[0], sizeof( target_save ) );
 	
 //	player[6] = save_data[8];	/* スキル */
 //	player[7] = save_data[7];	/* ハートのかけら所持個数 */

@@ -13,6 +13,10 @@
 #include "include/dconv.h"
 #include "SDL_rotozoom.h"
 
+#ifdef __HAIKU__
+#include <FindDirectory.h>
+#endif
+
 void FunctionInit( void );
 void ResetGameFlag( void );
 void ResetGameFlag2( void );
@@ -117,6 +121,20 @@ void FunctionInit( void )
 
 }
 
+#ifdef __HAIKU__
+static void makedirs(char* path)
+{
+	char *p = NULL;
+	for (p = path + 1; *p != 0; p++) {
+		if (*p == '/') {
+			*p = 0;
+			mkdir(path, S_IRWXU);
+			*p = '/';
+		}
+	}
+}
+#endif
+
 void ResetGameFlag( void )
 {
 	memset( &gameflag[0], 0, sizeof( gameflag ) );
@@ -127,9 +145,19 @@ int LoadGameFlag( char *fn )
 	FILE *fp;	/* (1)ファイルポインタの宣言 */
 	int size;
 	
+#ifdef __HAIKU__
+	dev_t volume = dev_for_path("/boot");
+	char base[1024];
+	find_directory(B_USER_SETTINGS_DIRECTORY, volume, true, base, sizeof(base));
+	strcat(base, "/kaiten patissier/");
+	strcat(base, fn);
+#else
+	char* base = fn;
+#endif
+
 	/* (2)ファイルのオープン */
 	/*  ここで、ファイルポインタを取得する */
-	if ( ( fp = fopen( fn, "rb" ) ) == NULL )
+	if ( ( fp = fopen(base, "rb" ) ) == NULL )
 	{
 //		printf("file open error!!\n");
 		rc = -1;	/* (3)エラーの場合は通常、異常終了する */
@@ -152,9 +180,20 @@ int SaveGameFlag( char *fn )
 	FILE *fp;	/* (1)ファイルポインタの宣言 */
 	int size;
 	
+#ifdef __HAIKU__
+	dev_t volume = dev_for_path("/boot");
+	char base[1024];
+	find_directory(B_USER_SETTINGS_DIRECTORY, volume, true, base, sizeof(base));
+	strcat(base, "/kaiten patissier/");
+	strcat(base, fn);
+	makedirs(base);
+#else
+	char* base = fn;
+#endif
+
 	/* (2)ファイルのオープン */
 	/*  ここで、ファイルポインタを取得する */
-	if ( ( fp = fopen( fn, "wb" ) ) == NULL )
+	if ( ( fp = fopen(base, "wb" ) ) == NULL )
 	{
 //		printf("file open error!!\n");
 		rc = -1;	/* (3)エラーの場合は通常、異常終了する */
@@ -181,9 +220,19 @@ int LoadGameFlag2( char *fn )
 	FILE *fp;	/* (1)ファイルポインタの宣言 */
 	int size;
 	
+#ifdef __HAIKU__
+	dev_t volume = dev_for_path("/boot");
+	char base[1024];
+	find_directory(B_USER_SETTINGS_DIRECTORY, volume, true, base, sizeof(base));
+	strcat(base, "/kaiten patissier/");
+	strcat(base, fn);
+#else
+	char* base = fn;
+#endif
+
 	/* (2)ファイルのオープン */
 	/*  ここで、ファイルポインタを取得する */
-	if ( ( fp = fopen( fn, "rb" ) ) == NULL )
+	if ( ( fp = fopen(base, "rb" ) ) == NULL )
 	{
 //		printf("file open error!!\n");
 		rc = -1;	/* (3)エラーの場合は通常、異常終了する */
@@ -206,9 +255,20 @@ int SaveGameFlag2( char *fn )
 	FILE *fp;	/* (1)ファイルポインタの宣言 */
 	int size;
 	
+#ifdef __HAIKU__
+	dev_t volume = dev_for_path("/boot");
+	char base[1024];
+	find_directory(B_USER_SETTINGS_DIRECTORY, volume, true, base, sizeof(base));
+	strcat(base, "/kaiten patissier/");
+	strcat(base, fn);
+	makedirs(base);
+#else
+	char* base = fn;
+#endif
+
 	/* (2)ファイルのオープン */
 	/*  ここで、ファイルポインタを取得する */
-	if ( ( fp = fopen( fn, "wb" ) ) == NULL )
+	if ( ( fp = fopen(base, "wb" ) ) == NULL )
 	{
 //		printf("file open error!!\n");
 		rc = -1;	/* (3)エラーの場合は通常、異常終了する */
@@ -230,9 +290,20 @@ int SaveFile( char *fn, long *buff, long size )
 	int rc = 0;
 	FILE *fp;	/* (1)ファイルポインタの宣言 */
 	
+#ifdef __HAIKU__
+	dev_t volume = dev_for_path("/boot");
+	char base[1024];
+	find_directory(B_USER_SETTINGS_DIRECTORY, volume, true, base, sizeof(base));
+	strcat(base, "/kaiten patissier/");
+	strcat(base, fn);
+	makedirs(base);
+#else
+	char* base = fn;
+#endif
+
 	/* (2)ファイルのオープン */
 	/*  ここで、ファイルポインタを取得する */
-	if ( ( fp = fopen( fn, "wb" ) ) == NULL )
+	if ( ( fp = fopen(base, "wb" ) ) == NULL )
 	{
 //		printf("file open error!!\n");
 		rc = -1;	/* (3)エラーの場合は通常、異常終了する */
@@ -251,18 +322,28 @@ int SaveFile( char *fn, long *buff, long size )
 }
 int LoadFile( char *fn, long *buff, long size )
 {
-	int rc = 0;
+	int rc = -1;
 	FILE *fp;	/* (1)ファイルポインタの宣言 */
 	
 	/* (2)ファイルのオープン */
 	/*  ここで、ファイルポインタを取得する */
 	if ( ( fp = fopen( fn, "rb" ) ) == NULL )
 	{
-//		printf("file open error!!\n");
-		rc = -1;	/* (3)エラーの場合は通常、異常終了する */
+#ifdef __HAIKU__
+		// Try again in user settings directory (for replays)
+		dev_t volume = dev_for_path("/boot");
+		char base[1024];
+		find_directory(B_USER_SETTINGS_DIRECTORY, volume, true, base, sizeof(base));
+		strcat(base, "/kaiten patissier/");
+		strcat(base, fn);
+
+		fp = fopen(base, "rb");
+#endif
 	}
-	else 
+
+	if (fp != NULL)
 	{
+		rc = 0;
 		/* (4)ファイルの読み（書き）*/
 		size = fread( buff, 1, size, fp );  /* 5000バイト分読み込む */
 		fclose( fp );	/* (5)ファイルのクローズ */
